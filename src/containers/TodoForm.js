@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Octions from 'react-native-vector-icons/Octicons';
 import * as todoFormActionCreators from '../actions/todoForm';
+import * as todoModalActionCreators from '../actions/todoModal';
 import TodoFormBar from './TodoFormBar';
 
 const styles = StyleSheet.create({
@@ -32,12 +33,12 @@ const TodoForm = ({
   todoContext,
   todoDate,
   changeContext,
-  changeDate,
+  openModal,
 }: {
   todoContext: string,
   todoDate: string,
   changeContext: any,
-  changeDate: any,
+  openModal: any,
 }) => (
   <ScrollView>
     <TodoFormBar />
@@ -50,7 +51,7 @@ const TodoForm = ({
     />
     <View style={styles.todoDateConteiner}>
       <Text>日時</Text>
-      <TouchableWithoutFeedback onPress={() => changeDate('2017/11/20')}>
+      <TouchableWithoutFeedback onPress={() => openModal()}>
         <Octions name="calendar" size={20} />
       </TouchableWithoutFeedback>
       <Text>{todoDate}</Text>
@@ -63,5 +64,5 @@ export default connect(
     todoContext: state.todoForm.context,
     todoDate: state.todoForm.date,
   }),
-  { ...todoFormActionCreators },
+  { ...todoFormActionCreators, ...todoModalActionCreators },
 )(TodoForm);

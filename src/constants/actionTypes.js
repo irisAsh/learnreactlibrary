@@ -2,3 +2,8 @@ export const TODO_FORM = {
   CHANGE_CONTEXT: 'CHANGE_CONTEXT',
   CHANGE_DATE: 'CHANGE_DATE',
 };
+
+export const TODO_MODAL = {
+  OPEN_MODAL: 'OPEN_MODAL',
+  CLOSE_MODAL: 'CLOSE_MODAL',
+};
