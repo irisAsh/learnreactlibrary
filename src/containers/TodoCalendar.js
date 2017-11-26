@@ -11,6 +11,23 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
   },
+  buttonsBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 8,
+    marginHorizontal: 12,
+  },
+  buttonTextContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+  },
   yearBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -78,6 +95,8 @@ type Props = {
   dateTextColor: string,
   checkedDateContainerColor: string,
   checkedDateTextColor: string,
+  buttonContainerColor: string,
+  buttonTextColor: string,
   stackChecked: boolean,
   checkedDates: Array<string>,
 };
@@ -95,6 +114,8 @@ class TodoCalendar extends Component<Props, State> {
     dateTextColor: '#000000',
     checkedDateContainerColor: '#7C7C7C',
     checkedDateTextColor: '#FFFFFF',
+    buttonContainerColor: '#7C7C7C',
+    buttonTextColor: '#FFFFFF',
     stackChecked: false,
     checkedDates: [],
   };
@@ -124,6 +145,25 @@ class TodoCalendar extends Component<Props, State> {
     }
     this.setState({ checkedDates });
   };
+
+  renderButtonsBar = () => (
+    <View style={styles.buttonsBarContainer}>
+      <TouchableWithoutFeedback>
+        <View
+          style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
+        >
+          <Text style={[styles.buttonText, { color: this.props.buttonTextColor }]}>クリア</Text>
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback>
+        <View
+          style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
+        >
+          <Text style={[styles.buttonText, { color: this.props.buttonTextColor }]}>決定</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+  );
 
   renderYearBar = (currentYear: number) => (
     <View style={styles.yearBarContainer}>
@@ -238,6 +278,7 @@ class TodoCalendar extends Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
+        {this.renderButtonsBar()}
         {this.renderYearBar(this.state.currentYear)}
         {this.renderSevenDaysBar()}
         <ScrollView

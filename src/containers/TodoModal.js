@@ -15,6 +15,8 @@ const ModalComponent = (
     dateTextColor="#000000"
     checkedDateContainerColor="#FF5990"
     checkedDateTextColor="#FFFFFF"
+    buttonContainerColor="#FF5990"
+    buttonTextColor="#FFFFFF"
   />
 );
 
