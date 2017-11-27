@@ -40,6 +40,10 @@ class TodoModal extends Component<Props> {
       checkedDateTextColor="#FFFFFF"
       buttonContainerColor="#FF5990"
       buttonTextColor="#FFFFFF"
+      onPressClear={() => {
+        this.props.changeDate('');
+        this.props.closeModal();
+      }}
       onPressDecide={(checkedDates: Array<string>) => {
         this.props.changeDate(!!checkedDates && checkedDates.length > 0 ? checkedDates[0] : '');
         this.props.closeModal();

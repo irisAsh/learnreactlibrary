@@ -99,6 +99,7 @@ type Props = {
   stackChecked: boolean,
   checkedDates: Array<string>,
   onPressDate: (zeroFillDate: string) => void,
+  onPressClear: () => void,
   onPressDecide: (checkedDates: Array<string>) => void,
 };
 
@@ -109,7 +110,6 @@ type State = {
 
 class TodoCalendar extends Component<Props, State> {
   static defaultProps = {
-    onPressDate: () => {},
     monthSectionColor: '#7C7C7C',
     monthTextColor: '#FFFFFF',
     dateTextColor: '#000000',
@@ -119,6 +119,8 @@ class TodoCalendar extends Component<Props, State> {
     buttonTextColor: '#FFFFFF',
     stackChecked: false,
     checkedDates: [],
+    onPressDate: () => {},
+    onPressClear: () => {},
     onPressDecide: () => {},
   };
 
@@ -160,7 +162,12 @@ class TodoCalendar extends Component<Props, State> {
 
   renderButtonsBar = () => (
     <View style={styles.buttonsBarContainer}>
-      <TouchableWithoutFeedback onPress={() => this.clearCheckedDates()}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          this.clearCheckedDates();
+          this.props.onPressClear();
+        }}
+      >
         <View
           style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
         >
