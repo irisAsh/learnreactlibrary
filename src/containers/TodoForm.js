@@ -14,6 +14,7 @@ import Octions from 'react-native-vector-icons/Octicons';
 import * as todoFormActionCreators from '../actions/todoForm';
 import * as todoModalActionCreators from '../actions/todoModal';
 import TodoFormBar from './TodoFormBar';
+import * as DateUtil from '../utils/DateUtil';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,7 +55,7 @@ const TodoForm = ({
       <TouchableWithoutFeedback onPress={() => openModal()}>
         <Octions name="calendar" size={20} />
       </TouchableWithoutFeedback>
-      <Text>{todoDate}</Text>
+      <Text>{DateUtil.convertToSlashFormat(todoDate)}</Text>
     </View>
   </ScrollView>
 );
