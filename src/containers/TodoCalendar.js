@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onPressDate: (zeroFillDate: string) => void,
   monthSectionColor: string,
   monthTextColor: string,
   dateTextColor: string,
@@ -99,6 +98,8 @@ type Props = {
   buttonTextColor: string,
   stackChecked: boolean,
   checkedDates: Array<string>,
+  onPressDate: (zeroFillDate: string) => void,
+  onPressDecide: (checkedDates: Array<string>) => void,
 };
 
 type State = {
@@ -118,6 +119,7 @@ class TodoCalendar extends Component<Props, State> {
     buttonTextColor: '#FFFFFF',
     stackChecked: false,
     checkedDates: [],
+    onPressDecide: () => {},
   };
 
   constructor(props: Props) {
@@ -125,12 +127,22 @@ class TodoCalendar extends Component<Props, State> {
     const now = new Date();
     this.state = {
       currentYear: now.getFullYear(),
-      checkedDates: this.props.checkedDates,
+      checkedDates: this.props.checkedDates.filter(date => !!date && date !== ''),
     };
   }
 
+  getCheckedDates = () => this.state.checkedDates;
+
+  setCheckedDates = (checkedDates: Array<string>) => {
+    this.setState({ checkedDates });
+  };
+
   // flow type
   scrollView: any;
+
+  clearCheckedDates = () => {
+    this.setState({ checkedDates: [] });
+  };
 
   checkDate = (zeroFillDate: string) => {
     const prevCheckedDates = this.state.checkedDates;
@@ -148,14 +160,18 @@ class TodoCalendar extends Component<Props, State> {
 
   renderButtonsBar = () => (
     <View style={styles.buttonsBarContainer}>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => this.clearCheckedDates()}>
         <View
           style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
         >
           <Text style={[styles.buttonText, { color: this.props.buttonTextColor }]}>クリア</Text>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          this.props.onPressDecide(this.state.checkedDates);
+        }}
+      >
         <View
           style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
         >
