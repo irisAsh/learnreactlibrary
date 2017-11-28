@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { SEVEN_DAYS } from '../constants';
+import * as DateUtil from '../utils/DateUtil';
 
 const styles = StyleSheet.create({
   container: {
@@ -104,6 +105,8 @@ type Props = {
 };
 
 type State = {
+  firstScroll: boolean,
+  now: ?string,
   currentYear: number,
   checkedDates: Array<string>,
 };
@@ -128,6 +131,8 @@ class TodoCalendar extends Component<Props, State> {
     super(props);
     const now = new Date();
     this.state = {
+      firstScroll: false,
+      now: DateUtil.convertDateObjToZeroFillDate(now),
       currentYear: now.getFullYear(),
       checkedDates: this.props.checkedDates.filter(date => !!date && date !== ''),
     };
@@ -141,6 +146,15 @@ class TodoCalendar extends Component<Props, State> {
 
   // flow type
   scrollView: any;
+  now: any;
+
+  scrollToNowMonth = (event: any) => {
+    if (!this.state.firstScroll) {
+      const { y } = event.nativeEvent.layout;
+      this.scrollView.scrollTo({ y });
+      this.setState({ firstScroll: true });
+    }
+  };
 
   clearCheckedDates = () => {
     this.setState({ checkedDates: [] });
@@ -236,7 +250,14 @@ class TodoCalendar extends Component<Props, State> {
         .filter(v => !!v);
       const monthKey = `0000${year}`.slice(-4) + `0${month + 1}`.slice(-2);
       return (
-        <View key={monthKey}>
+        <View
+          key={monthKey}
+          onLayout={
+            !!this.state.now && this.state.now.slice(0, 6) === monthKey
+              ? this.scrollToNowMonth
+              : null
+          }
+        >
           <View style={[styles.monthContainer, { backgroundColor: this.props.monthSectionColor }]}>
             <Text style={[styles.monthText, { color: this.props.monthTextColor }]}>
               {`${month + 1}月`}
