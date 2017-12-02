@@ -15,3 +15,8 @@ export const convertDateObjToZeroFillDate = (dateObj: any): ?string => {
   }
   return null;
 };
+
+export const convertTimeToColonFormat = (time: string): string => {
+  if (typeof time !== 'string' || time.length !== 4) return time;
+  return `${time.slice(0, 2)}:${time.slice(2, 4)}`;
+};
