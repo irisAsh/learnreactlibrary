@@ -34,11 +34,13 @@ const styles = StyleSheet.create({
 const TodoForm = ({
   todoContext,
   todoDate,
+  todoTime,
   changeContext,
   openModal,
 }: {
   todoContext: string,
   todoDate: string,
+  todoTime: string,
   changeContext: any,
   openModal: any,
 }) => (
@@ -61,10 +63,10 @@ const TodoForm = ({
         placeholder="0000/00/00"
         value={DateUtil.convertToSlashFormat(todoDate)}
       />
-      <TouchableWithoutFeedback>
-        <EvilIcons name="clock" size={24} />
+      <TouchableWithoutFeedback disabled={todoDate === ''}>
+        <EvilIcons name="clock" size={24} color={todoDate === '' ? '#C4C4C4' : '#000000'} />
       </TouchableWithoutFeedback>
-      <TextInput editable={false} placeholder="00:00" />
+      <TextInput editable={false} placeholder="00:00" value={todoTime} />
     </View>
   </ScrollView>
 );
@@ -73,6 +75,7 @@ export default connect(
   state => ({
     todoContext: state.todoForm.context,
     todoDate: state.todoForm.date,
+    todoTime: state.todoForm.time,
   }),
   { ...todoFormActionCreators, ...todoModalActionCreators },
 )(TodoForm);
