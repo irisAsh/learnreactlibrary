@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { SEVEN_DAYS } from '../constants';
 import * as DateUtil from '../utils/DateUtil';
+import TodoButtonsBar from '../components/TodoButtonsBar';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,23 +12,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-  },
-  buttonsBarContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 8,
-    marginHorizontal: 12,
-  },
-  buttonTextContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 80,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 16,
   },
   yearBarContainer: {
     flexDirection: 'row',
@@ -118,8 +102,6 @@ class TodoCalendar extends Component<Props, State> {
     dateTextColor: '#000000',
     checkedDateContainerColor: '#7C7C7C',
     checkedDateTextColor: '#FFFFFF',
-    buttonContainerColor: '#7C7C7C',
-    buttonTextColor: '#FFFFFF',
     stackChecked: false,
     checkedDates: [],
     onPressDate: () => {},
@@ -174,33 +156,32 @@ class TodoCalendar extends Component<Props, State> {
     this.setState({ checkedDates });
   };
 
-  renderButtonsBar = () => (
-    <View style={styles.buttonsBarContainer}>
-      <TouchableWithoutFeedback
-        onPress={() => {
+  renderButtonsBar = () => {
+    const buttonBase = {
+      buttonContainerColor: this.props.buttonContainerColor,
+      buttonTextColor: this.props.buttonTextColor,
+    };
+
+    const buttons = [
+      {
+        name: 'クリア',
+        onPress: () => {
           this.clearCheckedDates();
           this.props.onPressClear();
-        }}
-      >
-        <View
-          style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
-        >
-          <Text style={[styles.buttonText, { color: this.props.buttonTextColor }]}>クリア</Text>
-        </View>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
-        onPress={() => {
+        },
+        ...buttonBase,
+      },
+      {
+        name: '決定',
+        onPress: () => {
           this.props.onPressDecide(this.state.checkedDates);
-        }}
-      >
-        <View
-          style={[styles.buttonTextContainer, { backgroundColor: this.props.buttonContainerColor }]}
-        >
-          <Text style={[styles.buttonText, { color: this.props.buttonTextColor }]}>決定</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
-  );
+        },
+        ...buttonBase,
+      },
+    ];
+
+    return <TodoButtonsBar buttons={buttons} />;
+  };
 
   renderYearBar = (currentYear: number) => (
     <View style={styles.yearBarContainer}>
