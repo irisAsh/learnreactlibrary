@@ -26,30 +26,22 @@ const styles = StyleSheet.create({
 const TodoButtonsBar = ({
   buttons,
 }: {
-    buttons: Array<{
-      name: string,
-      onPress: () => void,
-      buttonContainerColor: string,
-      buttonTextColor: string,
-    }>,
-  } = {
-    buttons: [
-      {
-        onPress: null,
-        buttonContainerColor: '#7C7C7C',
-        buttonTextColor: '#FFFFFF',
-      },
-    ],
-  }) => (
-    <View style={styles.container}>
-      {buttons.map(button => (
-        <TouchableWithoutFeedback key={button.name} onPress={() => button.onPress()}>
-          <View style={[styles.buttonContainer, { backgroundColor: button.buttonContainerColor }]}>
-            <Text style={[styles.buttonText, { color: button.buttonTextColor }]}>{button.name}</Text>
-          </View>
-        </TouchableWithoutFeedback>
+  buttons: Array<{
+    name: string,
+    onPress: () => void,
+    buttonContainerColor: string,
+    buttonTextColor: string,
+  }>,
+}) => (
+  <View style={styles.container}>
+    {buttons.map(button => (
+      <TouchableWithoutFeedback key={button.name} onPress={() => button.onPress()}>
+        <View style={[styles.buttonContainer, { backgroundColor: button.buttonContainerColor }]}>
+          <Text style={[styles.buttonText, { color: button.buttonTextColor }]}>{button.name}</Text>
+        </View>
+      </TouchableWithoutFeedback>
     ))}
-    </View>
+  </View>
 );
 
 export default TodoButtonsBar;
