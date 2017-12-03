@@ -102,6 +102,8 @@ class TodoCalendar extends Component<Props, State> {
     dateTextColor: '#000000',
     checkedDateContainerColor: '#7C7C7C',
     checkedDateTextColor: '#FFFFFF',
+    buttonContainerColor: '#7C7C7C',
+    buttonTextColor: '#FFFFFF',
     stackChecked: false,
     checkedDates: [],
     onPressDate: () => {},
