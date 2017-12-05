@@ -8,7 +8,7 @@ import * as todoModalActionCreators from '../actions/todoModal';
 import * as todoFromActionCreators from '../actions/todoForm';
 
 import TodoCalendar from './TodoCalendar';
-import TodoWatch from './TodoWatch';
+import TodoClock from './TodoClock';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,10 +32,6 @@ type Props = {
 
 class TodoModal extends Component<Props> {
   renderInnerComponent = () => (
-    <TodoWatch buttonContainerColor="#FF5990" buttonTextColor="#FFFFFF" />
-  );
-  /*
-  renderInnerComponent = () => (
     <TodoCalendar
       checkedDates={[this.props.todoForm.date]}
       monthSectionColor="#FF5990"
@@ -55,7 +51,6 @@ class TodoModal extends Component<Props> {
       }}
     />
   );
-*/
 
   render() {
     const { todoModal: { visible }, closeModal } = this.props;

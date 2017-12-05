@@ -8,29 +8,29 @@ const HOUR_MODE = 1;
 const MINUT_MODE = 2;
 
 const { width, height } = Dimensions.get('window');
-const watchBodyRadius = (width > height ? height : width) * 0.48;
-const watchBodyLength = watchBodyRadius * 2;
-const innerBodyRadius = watchBodyRadius * 0.36;
+const clockBodyRadius = (width > height ? height : width) * 0.48;
+const clockBodyLength = clockBodyRadius * 2;
+const innerBodyRadius = clockBodyRadius * 0.36;
 const innerBodyLength = innerBodyRadius * 2;
-const hourBoardRadius = watchBodyRadius * 0.11;
+const hourBoardRadius = clockBodyRadius * 0.11;
 const hourBoardLength = hourBoardRadius * 2;
-const hourCircumferenceRadius = watchBodyRadius * 0.82;
-const minuteCircumferenceRadius = watchBodyRadius * 0.52;
-const centerDistance = watchBodyRadius - hourBoardRadius;
+const hourCircumferenceRadius = clockBodyRadius * 0.82;
+const minuteCircumferenceRadius = clockBodyRadius * 0.52;
+const centerDistance = clockBodyRadius - hourBoardRadius;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  watchContainer: {
+  clockContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  watchBody: {
-    height: watchBodyLength,
-    width: watchBodyLength,
-    borderRadius: watchBodyLength,
+  clockBody: {
+    height: clockBodyLength,
+    width: clockBodyLength,
+    borderRadius: clockBodyLength,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -65,6 +65,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FF5990',
   },
+  displayContainer: {
+    backgroundColor: '#FF5990',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  displayTextContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  displayText: {
+    fontSize: 48,
+    paddingVertical: 16,
+    color: '#FFFFFF',
+  },
 });
 
 type Props = {
@@ -80,7 +96,7 @@ type State = {
   amMode: boolean,
 };
 
-class TodoWatch extends Component<Props, State> {
+class TodoClock extends Component<Props, State> {
   static defaultProps = {
     buttonContainerColor: '#7C7C7C',
     buttonTextColor: '#FFFFFF',
@@ -133,7 +149,40 @@ class TodoWatch extends Component<Props, State> {
     return <TodoButtonsBar buttons={buttons} />;
   };
 
-  renderWatchButtons = (mode: number) => {
+  renderTimeDisplay = () => {
+    var hour: string;
+    var minute: string;
+
+    if (this.state.hour === '') {
+      hour = '--';
+    } else {
+      hour = `0${this.state.hour}`.slice(-2);
+    }
+
+    if (this.state.minute === '') {
+      minute = '--';
+    } else {
+      minute = `0${this.state.minute}`.slice(-2);
+    }
+
+    return (
+      <View style={styles.displayContainer}>
+        <View style={{flex: 5}} />
+        <View style={[styles.displayTextContainer, { flex: 3 }]}>
+          <Text style={styles.displayText}>{hour}</Text>
+        </View>
+        <View style={[styles.displayTextContainer, { flex: 1 }]}>
+          <Text style={styles.displayText}>:</Text>
+        </View>
+        <View style={[styles.displayTextContainer, { flex: 3 }]}>
+          <Text style={styles.displayText}>{minute}</Text>
+        </View>
+        <View style={{flex: 5}} />
+      </View>
+    );
+  }
+
+  renderClockButtons = (mode: number) => {
     var keyPre: string;
     var circumferenceRadius: number;
     var targetState: string;
@@ -201,12 +250,12 @@ class TodoWatch extends Component<Props, State> {
     </View>
   )
 
-  renderWatch = () => (
-    <View style={styles.watchContainer}>
-      <View style={styles.watchBody}>
+  renderClock = () => (
+    <View style={styles.clockContainer}>
+      <View style={styles.clockBody}>
         {this.renderAmPm()}
-        {this.renderWatchButtons(HOUR_MODE)}
-        {this.renderWatchButtons(MINUT_MODE)}
+        {this.renderClockButtons(HOUR_MODE)}
+        {this.renderClockButtons(MINUT_MODE)}
       </View>
     </View>
   );
@@ -215,10 +264,11 @@ class TodoWatch extends Component<Props, State> {
     return (
       <View style={styles.container}>
         {this.renderButtonsBar()}
-        {this.renderWatch()}
+        {this.renderTimeDisplay()}
+        {this.renderClock()}
       </View>
     );
   }
 }
 
-export default TodoWatch;
+export default TodoClock;
