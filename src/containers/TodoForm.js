@@ -16,6 +16,7 @@ import * as todoFormActionCreators from '../actions/todoForm';
 import * as todoModalActionCreators from '../actions/todoModal';
 import TodoFormBar from './TodoFormBar';
 import * as DateUtil from '../utils/DateUtil';
+import { MODAL_MODE } from '../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,7 +56,7 @@ const TodoForm = ({
     />
     <View style={styles.todoDateConteiner}>
       <Text>日時</Text>
-      <TouchableWithoutFeedback onPress={() => openModal()}>
+      <TouchableWithoutFeedback onPress={() => openModal(MODAL_MODE.CALENDAR)}>
         <Octions name="calendar" size={20} />
       </TouchableWithoutFeedback>
       <TextInput
@@ -63,7 +64,10 @@ const TodoForm = ({
         placeholder="0000/00/00"
         value={DateUtil.convertToSlashFormat(todoDate)}
       />
-      <TouchableWithoutFeedback disabled={todoDate === ''}>
+      <TouchableWithoutFeedback
+        disabled={todoDate === ''}
+        onPress={() => openModal(MODAL_MODE.CLOCK)}
+      >
         <EvilIcons name="clock" size={24} color={todoDate === '' ? '#C4C4C4' : '#000000'} />
       </TouchableWithoutFeedback>
       <TextInput editable={false} placeholder="00:00" value={todoTime} />

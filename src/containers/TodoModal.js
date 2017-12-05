@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as todoModalActionCreators from '../actions/todoModal';
 import * as todoFromActionCreators from '../actions/todoForm';
+import { MODAL_MODE } from '../constants';
 
 import TodoCalendar from './TodoCalendar';
 import TodoClock from './TodoClock';
@@ -24,33 +25,42 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  todoModal: { visible: string },
+  todoModal: { visible: string, mode: string },
   todoForm: { date: string },
   closeModal: any,
   changeDate: any,
 };
 
 class TodoModal extends Component<Props> {
-  renderInnerComponent = () => (
-    <TodoCalendar
-      checkedDates={[this.props.todoForm.date]}
-      monthSectionColor="#FF5990"
-      monthTextColor="#FFFFFF"
-      dateTextColor="#000000"
-      checkedDateContainerColor="#FF5990"
-      checkedDateTextColor="#FFFFFF"
-      buttonContainerColor="#FF5990"
-      buttonTextColor="#FFFFFF"
-      onPressClear={() => {
-        this.props.changeDate('');
-        this.props.closeModal();
-      }}
-      onPressDecide={(checkedDates: Array<string>) => {
-        this.props.changeDate(!!checkedDates && checkedDates.length > 0 ? checkedDates[0] : '');
-        this.props.closeModal();
-      }}
-    />
-  );
+  renderInnerComponent = () => {
+    switch (this.props.todoModal.mode) {
+      case MODAL_MODE.CALENDAR:
+        return (
+          <TodoCalendar
+            checkedDates={[this.props.todoForm.date]}
+            monthSectionColor="#FF5990"
+            monthTextColor="#FFFFFF"
+            dateTextColor="#000000"
+            checkedDateContainerColor="#FF5990"
+            checkedDateTextColor="#FFFFFF"
+            buttonContainerColor="#FF5990"
+            buttonTextColor="#FFFFFF"
+            onPressClear={() => {
+              this.props.changeDate('');
+              this.props.closeModal();
+            }}
+            onPressDecide={(checkedDates: Array<string>) => {
+              this.props.changeDate(!!checkedDates && checkedDates.length > 0 ? checkedDates[0] : '');
+              this.props.closeModal();
+            }}
+          />
+        );
+      case MODAL_MODE.CLOCK:
+        return <TodoClock buttonContainerColor="#FF5990" buttonTextColor="#FFFFFF" />;
+      default:
+        return null;
+    }
+  };
 
   render() {
     const { todoModal: { visible }, closeModal } = this.props;

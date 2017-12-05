@@ -1,7 +1,9 @@
 import { TODO_MODAL } from '../constants/actionTypes';
+import { MODAL_MODE } from '../constants';
 
 const initialState = {
   visible: false,
+  mode: MODAL_MODE.INIT,
 };
 
 const todoModal = (state = initialState, action) => {
@@ -10,6 +12,7 @@ const todoModal = (state = initialState, action) => {
       return {
         ...state,
         visible: true,
+        mode: action.mode,
       };
     case TODO_MODAL.CLOSE_MODAL:
       return initialState;
