@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import Octions from 'react-native-vector-icons/Octicons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import * as todoFormActionCreators from '../actions/todoForm';
 import * as todoModalActionCreators from '../actions/todoModal';
 import TodoFormBar from './TodoFormBar';
@@ -33,11 +34,13 @@ const styles = StyleSheet.create({
 const TodoForm = ({
   todoContext,
   todoDate,
+  todoTime,
   changeContext,
   openModal,
 }: {
   todoContext: string,
   todoDate: string,
+  todoTime: string,
   changeContext: any,
   openModal: any,
 }) => (
@@ -55,7 +58,15 @@ const TodoForm = ({
       <TouchableWithoutFeedback onPress={() => openModal()}>
         <Octions name="calendar" size={20} />
       </TouchableWithoutFeedback>
-      <Text>{DateUtil.convertToSlashFormat(todoDate)}</Text>
+      <TextInput
+        editable={false}
+        placeholder="0000/00/00"
+        value={DateUtil.convertToSlashFormat(todoDate)}
+      />
+      <TouchableWithoutFeedback disabled={todoDate === ''}>
+        <EvilIcons name="clock" size={24} color={todoDate === '' ? '#C4C4C4' : '#000000'} />
+      </TouchableWithoutFeedback>
+      <TextInput editable={false} placeholder="00:00" value={todoTime} />
     </View>
   </ScrollView>
 );
@@ -64,6 +75,7 @@ export default connect(
   state => ({
     todoContext: state.todoForm.context,
     todoDate: state.todoForm.date,
+    todoTime: state.todoForm.time,
   }),
   { ...todoFormActionCreators, ...todoModalActionCreators },
 )(TodoForm);

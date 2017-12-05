@@ -11,3 +11,8 @@ export const changeDate = (date: string) => ({
   type: TODO_FORM.CHANGE_DATE,
   date,
 });
+
+export const changeTime = (time: string) => ({
+  type: TODO_FORM.CHANGE_TIME,
+  time,
+});

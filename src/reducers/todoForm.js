@@ -3,6 +3,7 @@ import { TODO_FORM } from '../constants/actionTypes';
 const initialState = {
   context: '',
   date: '',
+  time: '',
 };
 
 const todoForm = (state = initialState, action) => {
@@ -16,6 +17,12 @@ const todoForm = (state = initialState, action) => {
       return {
         ...state,
         date: action.date,
+        time: action.date === '' ? '' : state.time,
+      };
+    case TODO_FORM.CHANGE_TIME:
+      return {
+        ...state,
+        time: action.time,
       };
     default:
       return state;

@@ -8,6 +8,7 @@ import * as todoModalActionCreators from '../actions/todoModal';
 import * as todoFromActionCreators from '../actions/todoForm';
 
 import TodoCalendar from './TodoCalendar';
+import TodoClock from './TodoClock';
 
 const styles = StyleSheet.create({
   container: {

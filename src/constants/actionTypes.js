@@ -1,6 +1,7 @@
 export const TODO_FORM = {
   CHANGE_CONTEXT: 'CHANGE_CONTEXT',
   CHANGE_DATE: 'CHANGE_DATE',
+  CHANGE_TIME: 'CHANGE_TIME',
 };
 
 export const TODO_MODAL = {
