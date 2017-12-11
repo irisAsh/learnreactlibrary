@@ -8,3 +8,7 @@ export const TODO_MODAL = {
   OPEN_MODAL: 'OPEN_MODAL',
   CLOSE_MODAL: 'CLOSE_MODAL',
 };
+
+export const TODO_SETTINGS = {
+  SET_COLOR: 'SET_COLOR',
+};
