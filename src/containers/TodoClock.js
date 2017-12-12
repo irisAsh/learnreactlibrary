@@ -80,7 +80,7 @@ type Props = {
   textColorDark: string,
   textColorLight: string,
   onPressClear: () => void,
-  onPressDecide: (hour: string, minute: string) => void,
+  onPressDecide: (time: string) => void,
 };
 
 type State = {
@@ -104,7 +104,7 @@ class TodoClock extends Component<Props, State> {
     textColorDark: '#7C7C7C',
     textColorLight: '#E0E0E0',
     onPressClear: () => {},
-    onPressDecide: (hour: string, minute: string) => {},
+    onPressDecide: (time: string) => {},
   };
 
   constructor(props: Props) {
@@ -149,7 +149,7 @@ class TodoClock extends Component<Props, State> {
         ...buttonsBase,
         name: '決定',
         onPress: () => {
-          this.props.onPressDecide(this.state.hour, this.state.minute);
+          this.props.onPressDecide(`${this.state.hour}:${this.state.minute}`);
         },
       },
     ];
