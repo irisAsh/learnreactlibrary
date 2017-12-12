@@ -3,7 +3,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configreStore from './src/store/configureStore';
-import TodoMain from './src/components/TodoMain';
+import TodoMain from './src/screens/TodoMain';
 
 const App = () => (
   <Provider store={configreStore()}>

@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as todoModalActionCreators from '../actions/todoModal';
 import * as todoFromActionCreators from '../actions/todoForm';
 import { MODAL_MODE } from '../constants';
+import type { COLOR_TYPE } from '../styles/colorStyles';
 
 import TodoCalendar from './TodoCalendar';
 import TodoClock from './TodoClock';
@@ -27,24 +28,27 @@ const styles = StyleSheet.create({
 type Props = {
   todoModal: { visible: string, mode: string },
   todoForm: { date: string },
+  todoSettings: { colorStyle: COLOR_TYPE },
   closeModal: any,
   changeDate: any,
 };
 
 class TodoModal extends Component<Props> {
   renderInnerComponent = () => {
+    const { colorStyle } = this.props.todoSettings;
+
     switch (this.props.todoModal.mode) {
       case MODAL_MODE.CALENDAR:
         return (
           <TodoCalendar
             checkedDates={[this.props.todoForm.date]}
-            monthSectionColor="#FF5990"
-            monthTextColor="#FFFFFF"
-            dateTextColor="#000000"
-            checkedDateContainerColor="#FF5990"
-            checkedDateTextColor="#FFFFFF"
-            buttonContainerColor="#FF5990"
-            buttonTextColor="#FFFFFF"
+            monthSectionColor={colorStyle.backgroundColorDark}
+            monthTextColor={colorStyle.textColorReverse}
+            dateTextColor={colorStyle.textColorDefault}
+            checkedDateContainerColor={colorStyle.backgroundColorDark}
+            checkedDateTextColor={colorStyle.textColorReverse}
+            buttonContainerColor={colorStyle.backgroundColorDark}
+            buttonTextColor={colorStyle.textColorReverse}
             onPressClear={() => {
               this.props.changeDate('');
               this.props.closeModal();
@@ -56,7 +60,7 @@ class TodoModal extends Component<Props> {
           />
         );
       case MODAL_MODE.CLOCK:
-        return <TodoClock buttonContainerColor="#FF5990" buttonTextColor="#FFFFFF" />;
+        return <TodoClock {...colorStyle} />;
       default:
         return null;
     }
@@ -86,6 +90,7 @@ export default connect(
   state => ({
     todoModal: state.todoModal,
     todoForm: state.todoForm,
+    todoSettings: state.todoSettings,
   }),
   { ...todoModalActionCreators, ...todoFromActionCreators },
 )(TodoModal);

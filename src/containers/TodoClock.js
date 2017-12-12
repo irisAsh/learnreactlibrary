@@ -45,28 +45,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: hourBoardLength,
     width: hourBoardLength,
-    backgroundColor: '#FFD1DF',
     borderRadius: hourBoardLength,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  checkedHourBoard: {
-    backgroundColor: '#FF5990',
-  },
-  checkedHourText: {
-    color: '#FFFFFF',
-  },
   ampmText: {
     fontSize: 30,
     paddingVertical: 12,
-    color: '#FFD1DF',
   },
-  chechedAmpmText: {
+  checkedAmpmText: {
     fontWeight: 'bold',
-    color: '#FF5990',
   },
   displayContainer: {
-    backgroundColor: '#FF5990',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -79,13 +69,16 @@ const styles = StyleSheet.create({
   displayText: {
     fontSize: 48,
     paddingVertical: 16,
-    color: '#FFFFFF',
   },
 });
 
 type Props = {
-  buttonContainerColor: string,
-  buttonTextColor: string,
+  backgroundColorLight: string,
+  backgroundColorDark: string,
+  textColorDefault: string,
+  textColorReverse: string,
+  textColorDark: string,
+  textColorLight: string,
   onPressClear: () => void,
   onPressDecide: () => void,
 };
@@ -98,8 +91,12 @@ type State = {
 
 class TodoClock extends Component<Props, State> {
   static defaultProps = {
-    buttonContainerColor: '#7C7C7C',
-    buttonTextColor: '#FFFFFF',
+    backgroundColorDark: '#7C7C7C',
+    backgroundColorLight: '#E0E0E0',
+    textColorDefault: '#000000',
+    textColorReverse: '#FFFFFF',
+    textColorDark: '#7C7C7C',
+    textColorLight: '#E0E0E0',
     onPressClear: () => {},
     onPressDecide: () => {},
   };
@@ -130,8 +127,8 @@ class TodoClock extends Component<Props, State> {
 
   renderButtonsBar = () => {
     const buttonsBase = {
-      buttonContainerColor: this.props.buttonContainerColor,
-      buttonTextColor: this.props.buttonTextColor,
+      buttonContainerColor: this.props.backgroundColorDark,
+      buttonTextColor: this.props.textColorReverse,
     };
     const buttons = [
       {
@@ -166,16 +163,16 @@ class TodoClock extends Component<Props, State> {
     }
 
     return (
-      <View style={styles.displayContainer}>
+      <View style={[styles.displayContainer, { backgroundColor: this.props.backgroundColorDark }]}>
         <View style={{flex: 5}} />
-        <View style={[styles.displayTextContainer, { flex: 3 }]}>
-          <Text style={styles.displayText}>{hour}</Text>
+        <View style={[styles.displayTextContainer, { flex: 3, backgroundColor: this.props.backgroundColorDark }]}>
+          <Text style={[styles.displayText, { color: this.props.textColorReverse }]}>{hour}</Text>
         </View>
-        <View style={[styles.displayTextContainer, { flex: 1 }]}>
-          <Text style={styles.displayText}>:</Text>
+        <View style={[styles.displayTextContainer, { flex: 1, backgroundColor: this.props.backgroundColorDark }]}>
+          <Text style={[styles.displayText, { color: this.props.textColorReverse }]}>:</Text>
         </View>
-        <View style={[styles.displayTextContainer, { flex: 3 }]}>
-          <Text style={styles.displayText}>{minute}</Text>
+        <View style={[styles.displayTextContainer, { flex: 3, backgroundColor: this.props.backgroundColorDark }]}>
+          <Text style={[styles.displayText, { color: this.props.textColorReverse }]}>{minute}</Text>
         </View>
         <View style={{flex: 5}} />
       </View>
@@ -224,11 +221,12 @@ class TodoClock extends Component<Props, State> {
               {
                 top: centerDistance + topDistance,
                 left: centerDistance + leftDistance,
+                backgroundColor: this.props.backgroundColorLight,
               },
-              checked && styles.checkedHourBoard,
+              checked && { backgroundColor: this.props.backgroundColorDark },
             ]}
           >
-            <Text style={checked && styles.checkedHourText}>{value}</Text>
+            <Text style={{ color: checked ? this.props.textColorReverse : this.props.textColorDefault }}>{value}</Text>
           </View>
         </TouchableWithoutFeedback>
       );
@@ -239,12 +237,24 @@ class TodoClock extends Component<Props, State> {
     <View style={styles.innerBody}>
       <TouchableWithoutFeedback onPress={() => this.setState({ amMode: true })}>
         <View>
-          <Text style={[styles.ampmText, this.state.amMode && styles.chechedAmpmText]}>AM</Text>
+          <Text style={[
+            styles.ampmText,
+            { color: this.state.amMode ? this.props.textColorDark : this.props.textColorLight },
+            this.state.amMode && styles.checkedAmpmText,
+          ]}>
+            AM
+          </Text>
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={() => this.setState({ amMode: false })}>
         <View>
-          <Text style={[styles.ampmText, !this.state.amMode && styles.chechedAmpmText]}>PM</Text>
+          <Text style={[
+            styles.ampmText,
+            { color: !this.state.amMode ? this.props.textColorDark : this.props.textColorLight },
+            !this.state.amMode && styles.checkedAmpmText,
+          ]}>
+            PM
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     </View>

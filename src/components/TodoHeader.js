@@ -17,10 +17,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const TodoHeader = ({ title }: { title: string }) => (
-  <View style={styles.container}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
+const TodoHeader = ({
+  title,
+  backgroundColor,
+  color,
+}: {
+    title: string,
+    backgroundColor: string,
+    color: string,
+  } = {
+    title: 'Title',
+    backgroundColor: '#595959',
+    color: '#FFFFFF',
+  }) => (
+    <View style={[styles.container, { backgroundColor }]}>
+      <Text style={[styles.title, { color }]}>{title}</Text>
+    </View>
 );
 
 export default TodoHeader;

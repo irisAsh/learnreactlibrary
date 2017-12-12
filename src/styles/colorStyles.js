@@ -1,3 +1,14 @@
+// @flow
+
+export type COLOR_TYPE = {
+  backgroundColorDark: string,
+  backgroundColorLight: string,
+  textColorDefault: string,
+  textColorReverse: string,
+  textColorDark: string,
+  textColorLight: string,
+};
+
 export const MAGENTA_STYLE = {
   backgroundColorDark: '#FF5990',
   backgroundColorLight: '#FFD1DF',
@@ -9,9 +20,9 @@ export const MAGENTA_STYLE = {
 
 export const SKYBLUE_STYLE = {
   backgroundColorDark: '#67CDFC',
-  backgroundColorLight: '##BFDFFF',
+  backgroundColorLight: '#D3EFFF',
   textColorDefault: '#000000',
   textColorReverse: '#FFFFFF',
   textColorDark: '#67CDFC',
-  textColorLight: '#BFDFFF',
+  textColorLight: '#D3EFFF',
 };

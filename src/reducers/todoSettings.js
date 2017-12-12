@@ -1,8 +1,8 @@
 import { TODO_SETTINGS } from '../constants/actionTypes';
-import * as colorTypes from '../styles/colorTypes';
+import * as colorStyles from '../styles/colorStyles';
 
 const initialState = {
-  color: colorTypes.SKYBLUE_STYLE,
+  colorStyle: colorStyles.SKYBLUE_STYLE,
 };
 
 const todoSettings = (state = initialState, action) => {
