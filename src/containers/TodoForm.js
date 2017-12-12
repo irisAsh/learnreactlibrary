@@ -70,7 +70,11 @@ const TodoForm = ({
       >
         <EvilIcons name="clock" size={24} color={todoDate === '' ? '#C4C4C4' : '#000000'} />
       </TouchableWithoutFeedback>
-      <TextInput editable={false} placeholder="00:00" value={todoTime} />
+      <TextInput
+        editable={false}
+        placeholder="00:00"
+        value={DateUtil.convertTimeToColonFormat(todoTime)}
+      />
     </View>
   </ScrollView>
 );

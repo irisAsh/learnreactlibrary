@@ -89,14 +89,10 @@ type State = {
   amMode: boolean,
 };
 
-const initialState = {
-  hour: '',
-  minute: '',
-  amMode: true,
-}
-
 class TodoClock extends Component<Props, State> {
   static defaultProps = {
+    hour: '',
+    minute: '',
     backgroundColorDark: '#7C7C7C',
     backgroundColorLight: '#E0E0E0',
     textColorDefault: '#000000',
@@ -109,24 +105,32 @@ class TodoClock extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = initialState;
+    this.state = {
+      hour: this.props.hour,
+      minute: this.props.minute,
+      amMode: this.props.hour < '12',
+    };
   }
   
   clearClockTime = () => {
-    this.setState({ ...initialState });
+    this.setState({ 
+      hour: '',
+      minute: '',
+      amMode: true,
+    });
   }
 
   checkhour = (hour: string) => {
     const currentMinute = this.state.minute;
     this.setState({ hour });
-    if (currentMinute === '') this.setState({ minute: '0' });
+    if (currentMinute === '') this.setState({ minute: '00' });
   };
 
   checkMinute = (minute: string) => {
     const currentHour = this.state.hour;
     this.setState({ minute });
     if (currentHour === '') {
-      if (this.state.amMode) this.setState({ hour: '0' });
+      if (this.state.amMode) this.setState({ hour: '00' });
       else this.setState({ hour: '12' });
     }
   }
@@ -149,7 +153,10 @@ class TodoClock extends Component<Props, State> {
         ...buttonsBase,
         name: '決定',
         onPress: () => {
-          this.props.onPressDecide(`${this.state.hour}:${this.state.minute}`);
+          const time = this.state.hour === ''
+            ? ''
+            : `0${this.state.hour}`.slice(-2) + `0${this.state.minute}`.slice(-2);
+          this.props.onPressDecide(time);
         },
       },
     ];
@@ -214,15 +221,16 @@ class TodoClock extends Component<Props, State> {
       const topDistance = circumferenceRadius * Math.sin(rad);
       const leftDistance = circumferenceRadius * Math.cos(rad);
       const value = i * rate + (mode === HOUR_MODE && !this.state.amMode ? 12 : 0);
-      const checked = targetState === `${value}`;
+      const valueZeroPadding = `0${value}`.slice(-2);
+      const checked = targetState === valueZeroPadding;
       return (
         <TouchableWithoutFeedback
           key={key}
           onPress={() => {
             if (mode === HOUR_MODE) {
-              this.checkhour(`${value}`);
+              this.checkhour(valueZeroPadding);
             } else {
-              this.checkMinute(`${value}`);
+              this.checkMinute(valueZeroPadding);
             }
           }}
         >

@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
 
 type Props = {
   todoModal: { visible: string, mode: string },
-  todoForm: { date: string },
+  todoForm: { date: string, time: string },
   todoSettings: { colorStyle: COLOR_TYPE },
   closeModal: any,
   changeDate: any,
+  changeTime: any,
 };
 
 class TodoModal extends Component<Props> {
@@ -59,8 +60,26 @@ class TodoModal extends Component<Props> {
             }}
           />
         );
-      case MODAL_MODE.CLOCK:
-        return <TodoClock {...colorStyle} />;
+      case MODAL_MODE.CLOCK: {
+        const curTime = this.props.todoForm.time;
+        const hour = curTime.length === 4 ? curTime.slice(0, 2) : '';
+        const minute = curTime.length === 4 ? curTime.slice(-2) : '';
+        return (
+          <TodoClock
+            {...colorStyle}
+            hour={hour}
+            minute={minute}
+            onPressClear={() => {
+              this.props.changeTime('');
+              this.props.closeModal();
+            }}
+            onPressDecide={(time: string) => {
+              this.props.changeTime(time);
+              this.props.closeModal();
+            }}
+          />
+        );
+      }
       default:
         return null;
     }
