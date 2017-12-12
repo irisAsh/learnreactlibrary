@@ -80,7 +80,7 @@ type Props = {
   textColorDark: string,
   textColorLight: string,
   onPressClear: () => void,
-  onPressDecide: () => void,
+  onPressDecide: (hour: string, minute: string) => void,
 };
 
 type State = {
@@ -88,6 +88,12 @@ type State = {
   minute: string,
   amMode: boolean,
 };
+
+const initialState = {
+  hour: '',
+  minute: '',
+  amMode: true,
+}
 
 class TodoClock extends Component<Props, State> {
   static defaultProps = {
@@ -98,16 +104,16 @@ class TodoClock extends Component<Props, State> {
     textColorDark: '#7C7C7C',
     textColorLight: '#E0E0E0',
     onPressClear: () => {},
-    onPressDecide: () => {},
+    onPressDecide: (hour: string, minute: string) => {},
   };
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      hour: '',
-      minute: '',
-      amMode: true,
-    };
+    this.state = initialState;
+  }
+  
+  clearClockTime = () => {
+    this.setState({ ...initialState });
   }
 
   checkhour = (hour: string) => {
@@ -134,12 +140,17 @@ class TodoClock extends Component<Props, State> {
       {
         ...buttonsBase,
         name: 'クリア',
-        onPress: this.props.onPressClear,
+        onPress: () => {
+          this.clearClockTime();
+          this.props.onPressClear();
+        },
       },
       {
         ...buttonsBase,
         name: '決定',
-        onPress: this.props.onPressDecide,
+        onPress: () => {
+          this.props.onPressDecide(this.state.hour, this.state.minute);
+        },
       },
     ];
 
