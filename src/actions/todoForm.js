@@ -2,6 +2,11 @@
 
 import { TODO_FORM } from '../constants/actionTypes';
 
+export const changeTitle = (title: string) => ({
+  type: TODO_FORM.CHANGE_TITLE,
+  title,
+});
+
 export const changeContext = (context: string) => ({
   type: TODO_FORM.CHANGE_CONTEXT,
   context,

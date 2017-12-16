@@ -1,6 +1,7 @@
 import { TODO_FORM } from '../constants/actionTypes';
 
 const initialState = {
+  title: '',
   context: '',
   date: '',
   time: '',
@@ -9,6 +10,11 @@ const initialState = {
 
 const todoForm = (state = initialState, action) => {
   switch (action.type) {
+    case TODO_FORM.CHANGE_TITLE:
+      return {
+        ...state,
+        title: action.title,
+      };
     case TODO_FORM.CHANGE_CONTEXT:
       return {
         ...state,
