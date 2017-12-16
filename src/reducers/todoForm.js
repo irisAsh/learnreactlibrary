@@ -4,6 +4,7 @@ const initialState = {
   context: '',
   date: '',
   time: '',
+  todos: [],
 };
 
 const todoForm = (state = initialState, action) => {
@@ -24,6 +25,16 @@ const todoForm = (state = initialState, action) => {
         ...state,
         time: action.time,
       };
+    case TODO_FORM.REGISTER_TODO: {
+      const { context, date, time } = state;
+      return {
+        ...state,
+        context: '',
+        date: '',
+        time: '',
+        todos: [...state.todos, { context, date, time }],
+      };
+    }
     default:
       return state;
   }

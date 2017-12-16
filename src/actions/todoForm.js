@@ -16,3 +16,7 @@ export const changeTime = (time: string) => ({
   type: TODO_FORM.CHANGE_TIME,
   time,
 });
+
+export const registerTodo = () => ({
+  type: TODO_FORM.REGISTER_TODO,
+});
