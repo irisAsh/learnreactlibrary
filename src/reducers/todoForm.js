@@ -1,6 +1,21 @@
+// @flow
+
 import { TODO_FORM } from '../constants/actionTypes';
 
-const initialState = {
+export type TODO_FORM_STATE_TYPE = {
+  title: string,
+  context: string,
+  date: string,
+  time: string,
+  todos: Array<{
+    title: string,
+    context: string,
+    date: string,
+    time: string,
+  }>,
+};
+
+const initialState: TODO_FORM_STATE_TYPE = {
   title: '',
   context: '',
   date: '',
@@ -8,7 +23,7 @@ const initialState = {
   todos: [],
 };
 
-const todoForm = (state = initialState, action) => {
+const todoForm = (state: TODO_FORM_STATE_TYPE = initialState, action: any) => {
   switch (action.type) {
     case TODO_FORM.CHANGE_TITLE:
       return {
@@ -32,13 +47,24 @@ const todoForm = (state = initialState, action) => {
         time: action.time,
       };
     case TODO_FORM.REGISTER_TODO: {
-      const { context, date, time } = state;
+      const {
+        title, context, date, time,
+      } = state;
       return {
         ...state,
+        title: '',
         context: '',
         date: '',
         time: '',
-        todos: [...state.todos, { context, date, time }],
+        todos: [
+          ...state.todos,
+          {
+            title,
+            context,
+            date,
+            time,
+          },
+        ],
       };
     }
     default:
