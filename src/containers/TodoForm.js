@@ -18,6 +18,7 @@ import TodoButtonsBar from '../components/TodoButtonsBar';
 import * as DateUtil from '../utils/DateUtil';
 import { MODAL_MODE } from '../constants';
 import type { COLOR_TYPE } from '../styles/colorStyles';
+import type { TODO_FORM_STATE_TYPE } from '../reducers/todoForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,13 +48,11 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  todoTitle: string,
-  todoContext: string,
-  todoDate: string,
-  todoTime: string,
+  todoForm: TODO_FORM_STATE_TYPE,
   todoSettings: { colorStyle: COLOR_TYPE },
   changeTitle: any,
   changeContext: any,
+  registerTodo: any,
   openModal: any,
 };
 
@@ -73,7 +72,9 @@ class TodoForm extends Component<Props> {
       },
       {
         name: '決定',
-        onPress: () => {},
+        onPress: () => {
+          this.props.registerTodo();
+        },
         ...buttonBase,
       },
     ];
@@ -82,6 +83,7 @@ class TodoForm extends Component<Props> {
   };
 
   render() {
+    const { todoForm } = this.props;
     return (
       <ScrollView>
         {this.renderButtonsBar()}
@@ -94,16 +96,16 @@ class TodoForm extends Component<Props> {
             maxLength={10}
             editable={false}
             placeholder="0000/00/00"
-            value={DateUtil.convertToSlashFormat(this.props.todoDate)}
+            value={DateUtil.convertToSlashFormat(todoForm.date)}
           />
           <TouchableWithoutFeedback
-            disabled={this.props.todoDate === ''}
+            disabled={todoForm.date === ''}
             onPress={() => this.props.openModal(MODAL_MODE.CLOCK)}
           >
             <EvilIcons
               name="clock"
               size={24}
-              color={this.props.todoDate === '' ? '#C4C4C4' : '#000000'}
+              color={todoForm.date === '' ? '#C4C4C4' : '#000000'}
             />
           </TouchableWithoutFeedback>
           <TextInput
@@ -111,21 +113,21 @@ class TodoForm extends Component<Props> {
             maxLength={5}
             editable={false}
             placeholder="00:00"
-            value={DateUtil.convertTimeToColonFormat(this.props.todoTime)}
+            value={DateUtil.convertTimeToColonFormat(todoForm.time)}
           />
         </View>
         <TextInput
           style={styles.todoTitle}
           maxLength={40}
           placeholder="Title"
-          value={this.props.todoTitle}
+          value={todoForm.title}
           onChange={({ text }) => this.props.changeTitle(text)}
         />
         <TextInput
           style={styles.todoContext}
           multiline
           placeholder="ToDo"
-          value={this.props.todoContext}
+          value={todoForm.context}
           onChange={({ text }) => this.props.changeContext(text)}
         />
       </ScrollView>
@@ -135,9 +137,7 @@ class TodoForm extends Component<Props> {
 
 export default connect(
   state => ({
-    todoContext: state.todoForm.context,
-    todoDate: state.todoForm.date,
-    todoTime: state.todoForm.time,
+    todoForm: state.todoForm,
     todoSettings: state.todoSettings,
   }),
   { ...todoFormActionCreators, ...todoModalActionCreators },
