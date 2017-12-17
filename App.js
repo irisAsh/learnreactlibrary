@@ -3,11 +3,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configreStore from './src/store/configureStore';
-import TodoMain from './src/screens/TodoMain';
+import TodoAppNavigator from './src/navigations/TodoAppNavigator';
 
 const App = () => (
   <Provider store={configreStore()}>
-    <TodoMain />
+    <TodoAppNavigator />
   </Provider>
 );
 
