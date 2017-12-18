@@ -121,14 +121,14 @@ class TodoForm extends Component<Props> {
           maxLength={40}
           placeholder="Title"
           value={todoForm.title}
-          onChange={({ text }) => this.props.changeTitle(text)}
+          onChangeText={text => this.props.changeTitle(text)}
         />
         <TextInput
           style={styles.todoContext}
           multiline
           placeholder="ToDo"
           value={todoForm.context}
-          onChange={({ text }) => this.props.changeContext(text)}
+          onChangeText={text => this.props.changeContext(text)}
         />
       </ScrollView>
     );
