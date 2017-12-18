@@ -10,28 +10,31 @@ const renderTabBarIcon = (Icon: ReactElement, color: string, name: string, size:
   <Icon color={color} name={name} size={size} />
 );
 
-const TodoTabNavigator = TabNavigator(
-  {
-    TodoListTab: {
-      screen: TodoList,
-      navigationOptions: {
-        tabBarLabel: 'List',
-        tabBarIcon: ({ tintColor }) =>
-          renderTabBarIcon(MaterialCommunityIcons, tintColor, 'format-list-numbers', 24),
-      },
-    },
-    TodoMainTab: {
-      screen: TodoMain,
-      navigationOptions: {
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) =>
-          renderTabBarIcon(MaterialCommunityIcons, tintColor, 'plus-outline', 24),
-      },
+const routeConfig = {
+  TodoListTab: {
+    screen: TodoList,
+    navigationOptions: {
+      tabBarLabel: 'List',
+      tabBarIcon: ({ tintColor }) =>
+        renderTabBarIcon(MaterialCommunityIcons, tintColor, 'format-list-numbers', 24),
     },
   },
-  {
-    headerMode: 'none',
+  TodoMainTab: {
+    screen: TodoMain,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) =>
+        renderTabBarIcon(MaterialCommunityIcons, tintColor, 'plus-outline', 24),
+    },
   },
-);
+};
+
+const tabNavigatorConfig = {
+  headerMode: 'none',
+  tabBarPosition: 'bottom',
+  initialRouteName: 'TodoListTab',
+};
+
+const TodoTabNavigator = TabNavigator(routeConfig, tabNavigatorConfig);
 
 export default TodoTabNavigator;
